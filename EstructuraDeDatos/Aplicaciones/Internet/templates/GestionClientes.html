@@ -1,0 +1,81 @@
+{% extends "./base.html"  %}
+
+{% block title %} Gestion de Clientes {% endblock %} 
+
+{% block body %} 
+<div class="row">
+    <div class = "col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        {% if messages   %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissable">
+            <strong>{{message }}</strong>
+          </div>
+        {% endfor %}
+        {%   endif  %}
+        <h2>Gestion de Cliente</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/registrarCliente/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtcedula" name="txtcedula" class="form-control" placeholder="Cédula" 
+                            minlength="10" maxlength="10" required>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <input type="text" id="txtnombre" name="txtnombre" class="form-control" placeholder="nombre" 
+                             maxlength="50" required>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <input type="text" id="nummonto" name="nummonto" class="form-control" 
+                                min="10" max="500" value="10" required>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <input type="text" id="txtpagado" name="txtpagado" class="form-control" placeholder="pagado" 
+                            minlength="2" maxlength="2" required>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                       <button type="submit" class="btn btn-success btn-block text-white" >Guardar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class = "col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        <h1>Listado de Clientes</h1>
+        <div class="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cédula</th>
+                    <th>Nombres</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th colspan="2">Opciones</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                    {%for c in clientes%}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{c.cedula}} </td>
+                        <td>{{c.nombre}} </td>
+                        <td>{{c.monto}} </td>
+                        <td>{{c.pagado}} </td>
+                        <td><a href="edicionCliente/{{c.cedula}} " class="btn btn-info">Editar cliente</a> </td>
+                        <td><a href="eliminarCliente/{{c.cedula}} " class="btn btn-danger btnEliminacion">Eliminar cliente</a> </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
